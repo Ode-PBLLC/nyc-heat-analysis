@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NYC’s A/C Gap</title>
+<meta name="description" content="Companion visualizations to The Margin’s reporting on heat, air conditioning and cooling assistance in New York City.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="site/style.css">
+</head>
+<body>
+
+<header class="masthead wrap">
+  <p class="kicker">The Margin · Data companion</p>
+  <h1>NYC’s A/C Gap</h1>
+</header>
+
+<!-- I. Scrolly map: boroughs, then one data layer at a time. No scrolling copy by design. -->
+<section class="scrolly" id="scrolly" aria-label="New York City map: boroughs, then one data layer at a time">
+  <div class="scrolly-canvas">
+    <svg id="stage-map" class="map" role="img" aria-label="New York City map. The active layer is described in the panel." preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="layer-chip" id="layer-chip" aria-live="polite">
+      <p class="roman">I.</p>
+      <h2 id="chip-title"></h2>
+      <div id="chip-legend" class="legend"></div>
+      <p id="chip-note" class="note"></p>
+    </div>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <p class="scroll-hint" id="scroll-hint">Scroll ↓</p>
+    <p id="status" aria-live="polite"></p>
+  </div>
+  <div class="scrolly-steps" id="steps">
+    <div class="step" data-step="boroughs"></div>
+    <div class="step" data-step="no_ac"></div>
+    <div class="step" data-step="hvi"></div>
+    <div class="step" data-step="black"></div>
+    <div class="step" data-step="hispanic"></div>
+    <div class="step" data-step="council"></div>
+  </div>
+</section>
+
+<!-- II. 0 in 25 -->
+<section class="beat wrap" id="zero-in-25" aria-labelledby="h-ac">
+  <p class="roman">II.</p>
+  <h2 id="h-ac">No working air conditioning in use</h2>
+  <p class="blurb">Among 25 New Yorkers who died directly from heat after being exposed at home, and whose air-conditioning status was known, none had a working AC in use.</p>
+  <div id="ac"></div>
+</section>
+
+<!-- III. Days at or above 90°F -->
+<section class="beat wrap" id="days-90f" aria-labelledby="h-90">
+  <p class="roman">III.</p>
+  <h2 id="h-90">Number of Days At or Above 90°F</h2>
+  <p class="blurb">New York averaged 17 days a year at or above 90°F in the 1981–2010 baseline. Explore the city’s projected ranges below.</p>
+  <svg id="chart" class="chart" viewBox="0 0 900 480" role="img" aria-label="Projected annual days at or above 90 degrees Fahrenheit: observed 1981–2010 baseline of 17 days, and model percentile ranges for the 2030s, 2050s and 2080s"></svg>
+  <p class="chart-legend legend"><span class="swatch" style="background:#c6010160"></span>25th–75th percentile band and boundary lines &nbsp;·&nbsp; <span class="swatch" style="background:#c6010125"></span>10th–90th percentile band</p>
+  <p class="note">Shading shows model spread, not confidence intervals. Connecting lines guide the eye between periods. Heat can be dangerous below 90°F.</p>
+</section>
+
+<!-- IV. Bivariate map with hover -->
+<section class="beat wrap bivariate" id="overlap" aria-labelledby="h-biv">
+  <p class="roman">IV.</p>
+  <h2 id="h-biv">Where Heat Vulnerability Overlaps</h2>
+  <p class="blurb">Comparing heat vulnerability with cooling-assistance applications within Black and Hispanic populations.</p>
+  <div id="tabs" class="tabs" role="group" aria-label="Choose a comparison"></div>
+  <svg id="biv-map" class="map" role="img" aria-label="Bivariate map of New York City modified ZIP areas"></svg>
+  <div id="biv-legend" class="legend"></div>
+  <p id="biv-status" aria-live="polite">Hover, focus or tap an area to see its values.</p>
+  <p class="note">HVI is population-weighted from neighborhood scores to modified ZIP areas. These maps show co-location, not causation; race is not an HVI input.</p>
+  <details><summary>Map data</summary><div id="biv-table" class="table-wrap"></div></details>
+</section>
+
+<!-- Data + Resources -->
+<section class="sources wrap" aria-label="Data and resources">
+  <h2>Data + Resources</h2>
+
+  <h3>I. New York City map</h3>
+  <p>Sources: NYC Department of City Planning, <a href="https://data.cityofnewyork.us/d/gthc-hcne">Borough Boundaries</a> (26b, water areas excluded) and <a href="https://data.cityofnewyork.us/d/9nt8-h7nd">2020 Neighborhood Tabulation Areas</a>; NYC Department of Health and Mental Hygiene, <a href="https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/">Heat Vulnerability Index</a>.</p>
+  <p>Population layers: NYC Department of City Planning, <a href="https://www.nyc.gov/site/planning/data-maps/nyc-population/2020-census.page">2020 Census data</a>, native NTA2020 rows. Black means non-Hispanic; Hispanic includes any race. These use the same source and definitions as the bivariate maps, but different geographic units. Council boundaries: NYC Open Data, <a href="https://data.cityofnewyork.us/d/872g-cjhh">City Council Districts</a>, pinned August 21, 2026; district numbers only, not member names or district demographic estimates.</p>
+  <p>The Heat Vulnerability Index is shown in its published neighborhood geography. It combines surface temperature, green space, home air conditioning and income. No AC is 100 minus the DOHMH households-with-AC percentage; it does not measure whether AC works or is used. Census shares are counts divided by total neighborhood population, rounded to one decimal place. Gray means missing data (including demographic shares in zero-population areas), never zero. Percentage color breaks are display intervals, not risk thresholds or the bivariate terciles.</p>
+
+  <h3>II. No working air conditioning in use</h3>
+  <p>Source: NYC Department of Health and Mental Hygiene, <a href="https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/heat-report/">2026 Heat-Related Mortality Report</a>, Table 2, “Air conditioning presence among heat-stress decedents exposed to heat in homes,” 2016–2025. <a href="https://datawrapper.dwcdn.net/GOFed/2/dataset.csv">Download the table data</a>.</p>
+  <p>The 25 people are those exposed to heat at home whose air-conditioning status was known. Thirteen had no AC; 12 had AC that was not working or not in use. None had a working AC in use. Exposure at home does not necessarily mean death occurred at home.</p>
+
+  <h3>III. Number of days at or above 90°F</h3>
+  <p>Source: New York City Panel on Climate Change projections, published by the Mayor’s Office of Climate and Environmental Justice in <a href="https://data.cityofnewyork.us/d/38ps-fnsg">New York City Climate Projections: Extreme Events and Sea Level Rise</a>. Data downloaded August 21, 2026.</p>
+  <p>Values are days per year with maximum air temperature at or above 90°F. The observed baseline covers 1981–2010; projections cover the 2030s, 2050s and 2080s. Lines show the 25th and 75th model percentiles, with shading for the 25th–75th and 10th–90th ranges. These are model ranges, not confidence intervals; no median is supplied by the source.</p>
+
+  <h3>IV. Where heat vulnerability overlaps</h3>
+  <p>Sources: NYC Department of Social Services, cooling-assistance application approvals and denials by ZIP code for the 2025 season, obtained by The Margin’s reporters; NYC Department of Health and Mental Hygiene, <a href="https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/">Heat Vulnerability Index</a>; NYC Department of City Planning, <a href="https://www.nyc.gov/site/planning/data-maps/nyc-population/2020-census.page">2020 Census data</a>; and NYC Open Data, <a href="https://data.cityofnewyork.us/d/pri4-ifjk">Modified ZIP Code Tabulation Areas</a> and <a href="https://data.cityofnewyork.us/d/63ge-mke6">2020 Census Tracts</a>. Analysis by The Margin.</p>
+  <p>Applications are shown per 1,000 residents using the map’s population estimates. Neighborhood HVI scores are population-weighted to modified ZIP areas using 2020 Census tracts. Racial and ethnic shares use 2020 Census counts; Black means non-Hispanic, and Hispanic includes people of any race. Colors group each variable using tercile cutoffs. These maps show co-location, not causation; race is not an HVI input.</p>
+  <p>Citywide population shares use NYC Census totals; the citywide HVI average is calculated from scored neighborhoods, weighted by population. The application benchmark covers only mapped areas with application records. Missing application data are not treated as zero.</p>
+</section>
+
+<script src="site/bundle.js"></script>
+<script src="site/main.js"></script>
+</body>
+</html>

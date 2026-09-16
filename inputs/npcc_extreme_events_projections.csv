@@ -1,0 +1,22 @@
+Period,Sea Level Rise,Number of days/year with maximum temperature at or above 82°F,Number of days/year with maximum temperature at or above 90°F,Number of days/year with maximum temperature at or above 95°F,Number of days/year with minimum temperature at or above 80°F,Number of heatwaves/year,Average length of heat waves (in days),Number of days/year with heat index at or above 85°F,Number of days/year with heat index at or above 95°F,Cooling Degree Days,Number of days/year with minimum temperature at or below 32°F,Heating Degree Days,Number of days/year with rainfall exceeding 1 inch,Number of days/year with rainfall exceeding 2 inches,Number of days/year with rainfall exceeding 4 inches
+Baseline (1981-2010),n/a,69,17,4,0.7,2,4,38,6,1156,70,4659,14,3,0.2
+2030s (10th Percentile),6 in,85,27,8,2,3,5,57,17,1397,34,3589,14,3,0.2
+2030s (25th Percentile),7 in,85,27,8,2,3,5,61,18,1471,39,3766,14,3,0.3
+2030s (75th Percentile),11 in,99,46,17,3,6,5,74,29,1757,52,4049,16,4,0.4
+2030s (90th Percentile),13 in,104,54,27,9,7,6,84,37,1903,58,4240,17,5,0.4
+2050s (10th Percentile),12 in,91,32,10,3,4,5,68,23,1568,17,3102,14,3,0.2
+2050s (25th Percentile),14 in,99,38,14,3,5,5,74,30,1713,31,3384,15,4,0.3
+2050s (75th Percentile),19 in,100,62,32,11,8,6,93,46,2124,48,3754,17,5,0.4
+2050s (90th Percentile),23 in,121,69,35,15,9,6,102,57,2335,52,3996,17,5,0.4
+2080s (10th Percentile),21 in,104,46,17,5,6,5,81,34,1817,3,2298,14,4,0.3
+2080s (25th Percentile),25 in,111,46,17,7,6,5,89,39,1948,9,2746,15,4,0.4
+2080s (75th Percentile),39 in,136,85,54,35,9,8,118,77,2782,39,3430,17,6,0.6
+2080s (90th Percentile),45 in,149,108,73,73,10,10,132,97,3292,48,3650,18,6,0.7
+2100 (10th Percentile),25 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2100 (25th Percentile),30 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2100 (75th Percentile),50 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2100 (90th Percentile),65 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2150 (10th Percentile),38 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2150 (25th Percentile),47 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2150 (75th Percentile),89 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
+2150 (90th Percentile),177 in,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a
