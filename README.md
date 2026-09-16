@@ -83,7 +83,7 @@ Vulnerability Index, and none of the comparisons establish causation.
 | NYC Department of Health and Mental Hygiene | [Heat Vulnerability Index by 2020 NTA](https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/) | 01, 04 |
 | NYC Department of Health and Mental Hygiene | [2026 Heat-Related Mortality Report](https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/heat-report/), Table 2 | 02 |
 | NYC Department of Health and Mental Hygiene | [ZCTA to MODZCTA crosswalk](https://github.com/nychealth/coronavirus-data) | 04 |
-| NYC Department of City Planning | [2020 Census core geographies workbook](https://www.nyc.gov/site/planning/data-maps/nyc-population/2020-census.page) | 01, 04 |
+| NYC Department of City Planning | [Decennial Census data](https://www.nyc.gov/content/planning/pages/resources/datasets/decennial-census), 2020 Census Data core geographies workbook ([zip](https://s-media.nyc.gov/agencies/dcp/assets/files/zip/data-tools/population/census-2020/2020-census-data.zip)) | 01, 04 |
 | NYC Department of City Planning | [Borough Boundaries, water areas excluded, 26b](https://data.cityofnewyork.us/d/gthc-hcne) | 01 |
 | NYC Open Data | [2020 Neighborhood Tabulation Areas](https://data.cityofnewyork.us/d/9nt8-h7nd) | 01 |
 | NYC Open Data | [2020 Census Tracts](https://data.cityofnewyork.us/d/63ge-mke6) | 04 |
