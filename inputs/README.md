@@ -5,7 +5,7 @@ kept here so the analysis reproduces exactly; the publishers' live datasets may 
 
 | File | Publisher and dataset | Link | Retrieved |
 |---|---|---|---|
-| `hvi_nta2020.csv` | NYC Department of Health and Mental Hygiene, Heat Vulnerability Index by 2020 Neighborhood Tabulation Area (rank 1–5 and component indicators, including percentage of households with air conditioning) | https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/ | 2026-08-21 |
+| `hvi_nta2020.csv` | NYC Department of Health and Mental Hygiene, Heat Vulnerability Index by 2020 Neighborhood Tabulation Area: rank 1–5 (`HVI_RANK`) and the five factor columns the department builds it from (`SURFACE_TEMP`, `GREENSPACE`, `PCT_HOUSEHOLDS_AC`, `MEDIAN_INCOME`, `PCT_BLACK_POP`). DOHMH describes the index as the sum of those factors assigned to quintiles scored 1 (lowest risk) to 5 (highest risk): [Heat Vulnerability Index Rankings](https://data.cityofnewyork.us/d/4mhf-duep) description and [indicator 2411](https://a816-dohbesp.nyc.gov/IndicatorPublic/data-explorer/climate/?id=2411#display=summary) description | https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/ | 2026-08-21 |
 | `nta2020.geojson` | NYC Open Data, 2020 Neighborhood Tabulation Areas, dataset 9nt8-h7nd | https://data.cityofnewyork.us/d/9nt8-h7nd | 2026-08-21 |
 | `boroughs_dcp_26b.geojson` | NYC Department of City Planning, Borough Boundaries (water areas excluded), release 26b, dataset gthc-hcne | https://data.cityofnewyork.us/d/gthc-hcne | 2026-09-09 |
 | `council_districts.geojson` | NYC Open Data, City Council Districts, dataset 872g-cjhh | https://data.cityofnewyork.us/d/872g-cjhh | 2026-08-21 |
