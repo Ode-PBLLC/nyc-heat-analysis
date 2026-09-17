@@ -11,7 +11,7 @@ GEOMETRY = ROOT / "geometry"
 
 # One citation string per input dataset. Retrieval dates are the dates the pinned copies in inputs/ were downloaded.
 SOURCES = {
-    "hvi": "NYC Department of Health and Mental Hygiene, Heat Vulnerability Index by 2020 Neighborhood Tabulation Area, Environment & Health Data Portal, https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/ (retrieved 2026-08-21)",
+    "hvi": "NYC Department of Health and Mental Hygiene, Heat Vulnerability Index by 2020 Neighborhood Tabulation Area, Environment & Health Data Portal, https://a816-dohbesp.nyc.gov/IndicatorPublic/data-features/hvi/ (retrieved 2026-08-21). Indicator description (data explorer, indicator 2411): the HVI is made up of data on surface temperature, green space, air conditioning access, median income, and Black population; https://a816-dohbesp.nyc.gov/IndicatorPublic/data-explorer/climate/?id=2411#display=summary (checked 2026-09-16)",
     "nta": "NYC Open Data, 2020 Neighborhood Tabulation Areas, dataset 9nt8-h7nd, https://data.cityofnewyork.us/d/9nt8-h7nd (retrieved 2026-08-21)",
     "boroughs": "NYC Department of City Planning, Borough Boundaries (water areas excluded), release 26b, dataset gthc-hcne, https://data.cityofnewyork.us/d/gthc-hcne (retrieved 2026-09-09)",
     "council": "NYC Open Data, City Council Districts, dataset 872g-cjhh, https://data.cityofnewyork.us/d/872g-cjhh (retrieved 2026-08-21)",
@@ -32,6 +32,22 @@ BLUE_RAMP = ["#e5f3fb", "#bedff4", "#94ccee", "#73bfe9", "#53b1e3"]
 BIVARIATE_PALETTE = [["#F2E5FD", "#94CCEE", "#53B1E3"], ["#E97A83", "#997EB0", "#446BAF"], ["#E93323", "#A02842", "#56287C"]]
 
 
+def load_hvi():
+    """Read the DOHMH HVI table with one row per NTA.
+
+    BX0802 (Kingsbridge-Marble Hill) appears twice with different GEOCODE values because Marble Hill is
+    administratively in Manhattan; the analytical columns must agree before the duplicate is dropped.
+    """
+    import pandas as pd
+
+    hvi = pd.read_csv(INPUTS / "hvi_nta2020.csv")
+    duplicated = hvi[hvi.NTACode.duplicated(keep=False)]
+    for code, rows in duplicated.groupby("NTACode"):
+        values = rows[["HVI_RANK", "PCT_HOUSEHOLDS_AC"]].drop_duplicates()
+        assert len(values) == 1, f"duplicate HVI rows for {code} disagree:\n{rows}"
+    return hvi.drop_duplicates("NTACode")
+
+
 def dump(obj) -> str:
     return json.dumps(obj, ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n"
 
@@ -48,6 +64,8 @@ def write_geojson(path: Path, frame, key: str, simplified: str, description: str
     """
     obj = json.loads(frame.to_json(drop_id=True, na="null"))
     display = json.loads((GEOMETRY / f"{simplified}_7pct.geojson").read_text(encoding="utf-8"))
+    display_ids = [f["properties"][key] for f in display["features"]]
+    assert len(display_ids) == len(set(display_ids)), f"duplicate {key} values in geometry/{simplified}_7pct.geojson"
     by_id = {f["properties"][key]: f["geometry"] for f in display["features"]}
     ids = [str(f["properties"][key]) for f in obj["features"]]
     assert len(ids) == len(set(ids)), f"duplicate {key} values in {path.name}"

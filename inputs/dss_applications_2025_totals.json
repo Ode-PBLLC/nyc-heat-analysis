@@ -1,0 +1,10 @@
+{
+  "description": "Reconciliation of 2025 Cooling Assistance applications (approved plus denied) from the DSS workbook's sheet grand totals to the counts mapped to modified ZIP code areas.",
+  "workbook_grand_total": 26622,
+  "rows_without_usable_zip_label": 1,
+  "with_five_digit_zip": 26621,
+  "matched_to_modzcta": 26606,
+  "modzcta_areas_with_applications": 173,
+  "unmatched_zip_labels": 13,
+  "unmatched_applications": 15
+}

@@ -11,13 +11,13 @@ observed 1981–2010 baseline, and the range of days the city's official climate
 New York City Panel on Climate Change (NPCC) projections published by the Mayor's Office of Climate and
 Environmental Justice as "New York City Climate Projections: Extreme Events and Sea Level Rise" (NYC Open
 Data 38ps-fnsg). Column used: "Number of days/year with maximum temperature at or above 90°F." The
-dataset describes its projections as based on the CMIP6 models and SSP scenarios used for the IPCC Sixth
-Assessment Report. Pinned copy: [`../inputs/npcc_extreme_events_projections.csv`](../inputs/README.md).
+dataset describes its projections as based on those developed for the IPCC Sixth Assessment Report; its
+CMIP6/SSP statement refers specifically to the sea-level projections. Pinned copy: [`../inputs/npcc_extreme_events_projections.csv`](../inputs/README.md).
 
 ## Method
 
 [`analysis.ipynb`](analysis.ipynb) reads the baseline row and the 10th, 25th, 75th and 90th percentile rows for each period,
-checks that the percentiles are ordered, and writes `data/days_at_or_above_90f.json` and `.csv`. The
+requires each label to match exactly one row, checks that the percentiles are ordered, and writes `data/days_at_or_above_90f.json` and `.csv`. The
 source publishes no median or central estimate, so none is drawn. The chart places periods at 1995, 2035,
 2055 and 2085 on the horizontal axis and connects them with straight segments as a visual guide; the
 segments are not annual predictions. The 25th and 75th percentiles are drawn as lines with the 25th–75th

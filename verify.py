@@ -74,7 +74,12 @@ city = bundle[d04 + "citywide_context.json"]
 check(city["applications_2025"] == 26606 and city["application_areas_included"] == 173, "application benchmark changed")
 check(city["population_2020"] == 8804190 and city["hvi_scored_neighborhoods"] == 197, "citywide Census inputs changed")
 apps_in = sum(int(line.split(",")[1]) for line in (ROOT / "inputs" / "dss_applications_2025_by_modzcta.csv").read_text().splitlines()[1:])
-check(apps_in == 26606, f"aggregated application input sums to {apps_in}, expected 26606")
+unmatched_in = sum(int(line.split(",")[1]) for line in (ROOT / "inputs" / "dss_applications_2025_unmatched_zips.csv").read_text().splitlines()[1:])
+totals = json.loads((ROOT / "inputs" / "dss_applications_2025_totals.json").read_text(encoding="utf-8"))
+check(apps_in == totals["matched_to_modzcta"] == 26606, f"aggregated application input sums to {apps_in}, expected 26606")
+check(unmatched_in == totals["unmatched_applications"], "unmatched ZIP file disagrees with totals.json")
+check(totals["with_five_digit_zip"] == apps_in + unmatched_in, "matched + unmatched must equal applications with a ZIP label")
+check(totals["with_five_digit_zip"] + totals["rows_without_usable_zip_label"] == totals["workbook_grand_total"], "DSS reconciliation does not close")
 
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 check(re.findall(r'data-step="([a-z_]+)"', html) == ["boroughs", "no_ac", "hvi", "black", "hispanic", "council"], "scroll steps changed")

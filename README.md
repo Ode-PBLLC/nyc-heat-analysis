@@ -43,7 +43,7 @@ the data files.
 197 of 262 neighborhoods carry a Heat Vulnerability Index rank; the highest ranks cluster in the South
 Bronx, central Brooklyn and southeast Queens. Households without air conditioning range from 1.6% to
 24.2% by neighborhood, and the mean share rises from 5.1% in rank-1 neighborhoods to 16.3% in rank-5
-neighborhoods (household AC is one of the index's inputs). Black non-Hispanic residents make up 4.7% of
+neighborhoods (household AC is one of the index's five inputs). Black non-Hispanic residents make up 4.7% of
 the population of rank-1 neighborhoods and 47.4% of rank-5 neighborhoods; Hispanic residents 14.4% and
 35.6%. [Details](01_heat_vulnerability_map/README.md).
 
@@ -73,8 +73,10 @@ the middle and 4.60 in the highest. 49 of the 59 highest-vulnerability areas are
 share of Black non-Hispanic residents (1 of 69 lowest-vulnerability areas is); 29 of 59 are in the top
 tercile for share of Hispanic residents. [Details](04_heat_vulnerability_overlap/README.md).
 
-These results describe where quantities co-occur. Race and ethnicity are not inputs to the Heat
-Vulnerability Index, and none of the comparisons establish causation.
+These results describe where quantities co-occur; none of the comparisons establish causation. The
+health department builds the Heat Vulnerability Index from five inputs, and one of them is the share of
+residents who are Black, so the Black-population patterns in results 1 and 4 are partly built into the
+index. Hispanic share is not an input.
 
 ## Data sources
 
