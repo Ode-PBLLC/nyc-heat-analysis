@@ -31,10 +31,13 @@ total the published denominator of 25 and that the published percentages equal c
 ## Scope
 
 Heat-stress deaths are deaths caused directly by heat, distinct from the report's modeled estimates of
-heat-exacerbated mortality. The 25 decedents are those exposed at home whose AC status was known; the
-report lists 31 home exposures among 64 records with a known place of onset. Exposure at home does not
-mean death occurred at home. The category "not working or not in use" includes units that were present
-but not running, so it cannot be read as "broken."
+heat-exacerbated mortality. The 25 decedents are those exposed at home whose AC status was known. The
+report's text, not the pinned table, supplies the wider denominator: "People who died from heat stress were
+most often exposed to dangerous heat in homes (48%, n=31 of 64 records with detailed information available
+about onset place)." Exposure at home does not mean death occurred at home. The category "not working or
+not in use" includes units that were present but not running, so it cannot be read as "broken." The report
+states that "data for 2024 and 2025 are considered provisional because death data are still being compiled
+by the NYC Health Department Bureau of Vital Statistics," so the 2016–2025 counts may change.
 
 ## Files
 

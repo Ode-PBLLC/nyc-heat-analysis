@@ -5,13 +5,16 @@
 
 const $ = id => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
-const DATA = window.NYC_HEAT_DATA;
-if (!DATA) throw new Error('site/bundle.js did not load. Run `python3 build_site.py` to regenerate it.');
-const load = name => { if (!Object.hasOwn(DATA, name)) throw new Error('Missing bundled data: ' + name); return DATA[name]; };
-const P01 = '01_heat_vulnerability_map/data/', P02 = '02_no_working_ac/data/', P03 = '03_days_at_or_above_90f/data/', P04 = '04_heat_vulnerability_overlap/data/';
-
 function node(tag, attrs = {}, text) { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); if (text !== undefined) e.textContent = text; return e; }
 function el(tag, text, cls) { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; }
+
+const DATA = window.NYC_HEAT_DATA;
+if (!DATA) {
+  document.body.prepend(el('p', 'The page data (site/bundle.js) did not load, so the visualizations cannot be drawn. Regenerate it with python3 build_site.py.', 'load-error'));
+  throw new Error('site/bundle.js did not load.');
+}
+const load = name => { if (!Object.hasOwn(DATA, name)) throw new Error('Missing bundled data: ' + name); return DATA[name]; };
+const P01 = '01_heat_vulnerability_map/data/', P02 = '02_no_working_ac/data/', P03 = '03_days_at_or_above_90f/data/', P04 = '04_heat_vulnerability_overlap/data/';
 // Equirectangular projection centred on New York City; longitude scaled by cos(41°) ≈ 0.76 relative to latitude.
 const xy = ([lon, lat]) => [(lon + 74.3) * 760, -(lat - 41) * 1000];
 const rings = g => g.type === 'Polygon' ? g.coordinates : g.coordinates.flat();
@@ -21,15 +24,33 @@ function bounds(fs, pad = 15) {
   const x = Math.min(...xs), y = Math.min(...ys), w = Math.max(...xs) - x, h = Math.max(...ys) - y;
   return [x - pad, y - pad, w + 2 * pad, h + 2 * pad];
 }
-// Label anchor: area centroid of the feature's largest ring (bbox centres land in water for Queens/Bronx).
+// Label anchor: area centroid of the feature's largest ring. A centroid can fall outside a concave shape, so if it
+// does, the anchor moves to the midpoint of the longest run of the ring's interior along the centroid's horizontal line.
+function inside([px, py], pts) {
+  let hit = false;
+  for (let i = 0, n = pts.length, j = n - 1; i < n; j = i++) {
+    const [xi, yi] = pts[i], [xj, yj] = pts[j];
+    if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) hit = !hit;
+  }
+  return hit;
+}
 function labelPoint(f) {
-  let best = null, bestArea = -1;
+  let best = null, bestArea = -1, bestPts = null;
   for (const ring of rings(f.geometry)) {
     const pts = ring.map(xy); let a = 0, cx = 0, cy = 0;
     for (let i = 0, n = pts.length; i < n; i++) { const [x0, y0] = pts[i], [x1, y1] = pts[(i + 1) % n], c = x0 * y1 - x1 * y0; a += c; cx += (x0 + x1) * c; cy += (y0 + y1) * c; }
-    if (Math.abs(a) > bestArea) { bestArea = Math.abs(a); best = a ? [cx / (3 * a), cy / (3 * a)] : pts[0]; }
+    if (Math.abs(a) > bestArea) { bestArea = Math.abs(a); best = a ? [cx / (3 * a), cy / (3 * a)] : pts[0]; bestPts = pts; }
   }
-  return best;
+  if (inside(best, bestPts)) return best;
+  const y = best[1], xs = [];
+  for (let i = 0, n = bestPts.length, j = n - 1; i < n; j = i++) {
+    const [xi, yi] = bestPts[i], [xj, yj] = bestPts[j];
+    if ((yi > y) !== (yj > y)) xs.push(xi + (y - yi) * (xj - xi) / (yj - yi));
+  }
+  xs.sort((p, q) => p - q);
+  let span = null;
+  for (let i = 0; i + 1 < xs.length; i += 2) if (!span || xs[i + 1] - xs[i] > span[1] - span[0]) span = [xs[i], xs[i + 1]];
+  return span ? [(span[0] + span[1]) / 2, y] : best;
 }
 const fmt = v => v == null ? 'No data' : Number(v).toLocaleString(undefined, { maximumFractionDigits: 2 });
 function table(target, headers, rows) {
@@ -152,11 +173,25 @@ function scrolly() {
     $('scroll-hint').classList.toggle('is-hidden', id !== steps[0]);
     $('status').textContent = spec.title + '. ' + spec.note;
   }
-  const observer = new IntersectionObserver(entries => {
-    entries.filter(e => e.isIntersecting).forEach(e => setStep(e.target.dataset.step));
-  }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
-  document.querySelectorAll('#steps .step').forEach(s => observer.observe(s));
-  setStep(steps[0]);
+  // The active step is the one whose box contains the viewport's vertical midpoint. Computed from geometry on every
+  // scroll and resize (throttled to one frame) so jumps, mid-page loads and viewport changes cannot leave a stale layer.
+  const stepEls = [...document.querySelectorAll('#steps .step')];
+  function currentStep() {
+    const mid = innerHeight / 2;
+    const hit = stepEls.find(s => { const r = s.getBoundingClientRect(); return r.top <= mid && r.bottom > mid; });
+    if (hit) setStep(hit.dataset.step);
+    else if (stepEls[0].getBoundingClientRect().top > mid) setStep(steps[0]);
+    else setStep(steps.at(-1));
+  }
+  let frame = null;
+  const schedule = () => { if (frame === null) frame = requestAnimationFrame(() => { frame = null; currentStep(); }); };
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule);
+  currentStep();
+
+  const fields = ['HVI_RANK', 'pct_households_no_ac', 'pct_households_ac', 'pct_black_nh', 'pct_hispanic', 'population_2020', 'black_non_hispanic_count', 'hispanic_count'];
+  table($('stage-table'), ['Neighborhood', 'Borough', 'HVI (1 to 5)', 'Households without AC (%)', 'Households with AC (%)', 'Black, non-Hispanic (%)', 'Hispanic, any race (%)', '2020 population', 'Black, non-Hispanic count', 'Hispanic count'],
+        ntas.map(f => [f.properties.ntaname, f.properties.boroname, ...fields.map(k => fmt(f.properties[k]))]));
 }
 
 /* ---------- II. 0 in 25 ---------- */
@@ -194,6 +229,9 @@ function chart() {
   label.append(node('tspan', { x: 91 }, `${baseline.p25} days at or above 90°F`));
   label.append(node('tspan', { x: 91, dy: 20 }, 'per year, 1981–2010 average'));
   svg.append(label);
+  // Screen-reader table with every plotted value, including the 10th and 90th percentiles that have no marker.
+  table($('chart-table'), ['Period', '10th percentile', '25th percentile', '75th percentile', '90th percentile'],
+        s.map(r => [r.observed ? 'Observed 1981–2010' : r.period, fmt(r.p10), fmt(r.p25), fmt(r.p75), fmt(r.p90)]));
 }
 
 /* ---------- IV. Bivariate map ---------- */

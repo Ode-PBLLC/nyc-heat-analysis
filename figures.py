@@ -18,8 +18,18 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={"width": 1280, "height": 900}, device_scale_factor=2, reduced_motion="reduce")
     errors = []
     page.on("pageerror", lambda e: errors.append(str(e)))
+    page.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)  # rendering failures are logged, not thrown
     page.goto((ROOT / "index.html").as_uri())
     page.wait_for_selector("#layer-council path")
+    # Every section must have rendered before anything is captured.
+    rendered = page.evaluate("""() => ({
+        neighborhoods: document.querySelectorAll('#layer-neighborhoods path').length,
+        council: document.querySelectorAll('#layer-council path').length,
+        stat: document.querySelector('.stat')?.textContent,
+        chartDots: document.querySelectorAll('#chart circle').length,
+        zones: document.querySelectorAll('#biv-map path').length })""")
+    assert rendered == {"neighborhoods": 262, "council": 51, "stat": "0 in 25", "chartDots": 8, "zones": 178}, rendered
+    assert not errors, errors
 
     canvas = page.locator(".scrolly-canvas")
     for step in STEPS:

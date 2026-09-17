@@ -38,6 +38,9 @@
     <div class="step" data-step="council"></div>
   </div>
 </section>
+<div class="wrap">
+  <details id="stage-table-details"><summary>Neighborhood data (all layers)</summary><div id="stage-table" class="table-wrap"></div></details>
+</div>
 
 <!-- II. 0 in 25 -->
 <section class="beat wrap" id="zero-in-25" aria-labelledby="h-ac">
@@ -52,7 +55,8 @@
   <p class="roman">III.</p>
   <h2 id="h-90">Number of Days At or Above 90°F</h2>
   <p class="blurb">New York averaged 17 days a year at or above 90°F in the 1981–2010 baseline. Explore the city’s projected ranges below.</p>
-  <svg id="chart" class="chart" viewBox="0 0 900 480" role="img" aria-label="Projected annual days at or above 90 degrees Fahrenheit: observed 1981–2010 baseline of 17 days, and model percentile ranges for the 2030s, 2050s and 2080s"></svg>
+  <svg id="chart" class="chart" viewBox="0 0 900 480" role="img" aria-label="Projected annual days at or above 90 degrees Fahrenheit: observed 1981–2010 baseline of 17 days, and model percentile ranges for the 2030s, 2050s and 2080s. Values are listed in the table that follows."></svg>
+  <div id="chart-table" class="sr-only"></div>
   <p class="chart-legend legend"><span class="swatch" style="background:#c6010160"></span>25th–75th percentile band and boundary lines &nbsp;·&nbsp; <span class="swatch" style="background:#c6010125"></span>10th–90th percentile band</p>
   <p class="note">Shading shows model spread, not confidence intervals. Connecting lines guide the eye between periods. Heat can be dangerous below 90°F.</p>
 </section>
@@ -63,11 +67,12 @@
   <h2 id="h-biv">Where Heat Vulnerability Overlaps</h2>
   <p class="blurb">Comparing heat vulnerability with cooling-assistance applications within Black and Hispanic populations.</p>
   <div id="tabs" class="tabs" role="group" aria-label="Choose a comparison"></div>
-  <svg id="biv-map" class="map" role="img" aria-label="Bivariate map of New York City modified ZIP areas"></svg>
+  <a class="skip" href="#biv-table-details">Skip the map’s 178 areas and go to the data table</a>
+  <svg id="biv-map" class="map" role="group" aria-label="Bivariate map of New York City modified ZIP areas. Each area is focusable and announces its values."></svg>
   <div id="biv-legend" class="legend"></div>
   <p id="biv-status" aria-live="polite">Hover, focus or tap an area to see its values.</p>
-  <p class="note">HVI is population-weighted from neighborhood scores to modified ZIP areas. These maps show co-location, not causation. The share of Black residents is one of the five inputs to the city’s HVI, so the Black-population comparison is partly related by construction; Hispanic share is not an input.</p>
-  <details><summary>Map data</summary><div id="biv-table" class="table-wrap"></div></details>
+  <p class="note">HVI is population-weighted from neighborhood scores to modified ZIP areas. These maps show co-location, not causation. The share of Black residents is one of the five inputs to the city’s HVI, so the Black-population comparison is partly related by construction; Hispanic share is not an input. Colors are the only encoding on the map; the data table below carries the same values.</p>
+  <details id="biv-table-details"><summary>Map data</summary><div id="biv-table" class="table-wrap"></div></details>
 </section>
 
 <!-- Data + Resources -->

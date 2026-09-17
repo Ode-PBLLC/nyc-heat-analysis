@@ -108,13 +108,15 @@ directory, or run them all headlessly:
 python3 run_notebooks.py       # executes the four analysis notebooks in order and saves their outputs
 python3 build_site.py          # bundles */data into site/bundle.js for index.html
 python3 figures.py             # renders */figures/*.png from index.html
-python3 verify.py              # bundle, counts, colors, page copy and notebook outputs agree
+python3 verify.py              # recomputes classes, rates and totals from the data and inputs; checks the page
+python3 verify.py --execute    # additionally re-runs the notebooks and confirms the data files do not change
 ```
 
 `04_heat_vulnerability_overlap/aggregate_dss.ipynb` regenerates the aggregated application counts from the
 DSS workbook, which is not included here (`python3 run_notebooks.py --workbook PATH`). Every notebook
 asserts the counts it publishes, and the notebooks are committed with their outputs so the results can be
-read without running anything.
+read without running anything. Re-running reproduces the data files exactly; the notebooks' stored execution
+metadata (timestamps, execution counts) will differ from the committed copies.
 
 ## Layout
 
