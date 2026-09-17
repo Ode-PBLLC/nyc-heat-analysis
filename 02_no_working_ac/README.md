@@ -13,9 +13,9 @@ report's underlying Datawrapper table, [`../inputs/dohmh_heat_report_table2_ac_s
 
 ## Method
 
-`build.py` reads the three published categories and their counts, checks that they total the published
-denominator of 25 and that the published percentages equal count ÷ 25, and writes `data/ac_status.json`
-and `data/ac_status.csv`. No values are derived beyond that check.
+[`analysis.ipynb`](analysis.ipynb) reads the three published categories and their counts, checks that they
+total the published denominator of 25 and that the published percentages equal count ÷ 25, and writes
+`data/ac_status.json` and `data/ac_status.csv`. No values are derived beyond that check.
 
 ## Results
 
@@ -40,6 +40,6 @@ but not running, so it cannot be read as "broken."
 
 | File | Content |
 |---|---|
-| `build.py` | Reads the table, checks totals, writes the data files |
+| `analysis.ipynb` | Executed notebook: reads the table, checks totals, writes the data files |
 | `data/ac_status.json`, `data/ac_status.csv` | The three categories with counts and percentages |
 | `figures/ac_status.png` | Rendering |

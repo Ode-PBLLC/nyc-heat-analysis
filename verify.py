@@ -85,10 +85,16 @@ check("<table" not in html, "no static tables belong in index.html")
 
 # Provenance and scope: the DSS workbook and derived denial tables are not part of this repository.
 check(all("dcp_decennial" in p.name for p in ROOT.rglob("*.xlsx")), "unexpected workbook in repository")
-for name in ["README.md", "inputs/README.md", "geometry/README.md", "common.py", "build_site.py", "figures.py"] + \
-            [f"{d}/README.md" for d in ["01_heat_vulnerability_map", "02_no_working_ac", "03_days_at_or_above_90f", "04_heat_vulnerability_overlap"]] + \
-            [f"{d}/build.py" for d in ["01_heat_vulnerability_map", "02_no_working_ac", "03_days_at_or_above_90f", "04_heat_vulnerability_overlap"]]:
+DIRS = ["01_heat_vulnerability_map", "02_no_working_ac", "03_days_at_or_above_90f", "04_heat_vulnerability_overlap"]
+for name in ["README.md", "inputs/README.md", "geometry/README.md", "common.py", "build_site.py", "figures.py", "run_notebooks.py",
+             "04_heat_vulnerability_overlap/aggregate_dss.ipynb"] + [f"{d}/README.md" for d in DIRS] + [f"{d}/analysis.ipynb" for d in DIRS]:
     check((ROOT / name).exists(), f"missing {name}")
+# Notebooks are the analysis code: they must be saved with executed, error-free outputs.
+for path in sorted(ROOT.glob("*/*.ipynb")):
+    notebook = json.loads(path.read_text(encoding="utf-8"))
+    code_cells = [c for c in notebook["cells"] if c["cell_type"] == "code"]
+    check(all(c.get("execution_count") for c in code_cells), f"{path.relative_to(ROOT)} has unexecuted code cells")
+    check(not any(o.get("output_type") == "error" for c in code_cells for o in c.get("outputs", [])), f"{path.relative_to(ROOT)} has error outputs")
 for fig in ["01_heat_vulnerability_map/figures/hvi.png", "02_no_working_ac/figures/ac_status.png",
             "03_days_at_or_above_90f/figures/days_at_or_above_90f.png", "04_heat_vulnerability_overlap/figures/black.png"]:
     check((ROOT / fig).exists(), f"missing figure {fig}")

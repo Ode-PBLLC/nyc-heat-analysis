@@ -16,7 +16,7 @@ Assessment Report. Pinned copy: [`../inputs/npcc_extreme_events_projections.csv`
 
 ## Method
 
-`build.py` reads the baseline row and the 10th, 25th, 75th and 90th percentile rows for each period,
+[`analysis.ipynb`](analysis.ipynb) reads the baseline row and the 10th, 25th, 75th and 90th percentile rows for each period,
 checks that the percentiles are ordered, and writes `data/days_at_or_above_90f.json` and `.csv`. The
 source publishes no median or central estimate, so none is drawn. The chart places periods at 1995, 2035,
 2055 and 2085 on the horizontal axis and connects them with straight segments as a visual guide; the
@@ -46,6 +46,6 @@ lower temperatures as well.
 
 | File | Content |
 |---|---|
-| `build.py` | Extracts the series and writes the data files |
+| `analysis.ipynb` | Executed notebook: extracts the series and writes the data files |
 | `data/days_at_or_above_90f.json`, `data/days_at_or_above_90f.csv` | Baseline and percentile series |
 | `figures/days_at_or_above_90f.png` | Rendering |

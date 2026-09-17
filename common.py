@@ -1,4 +1,4 @@
-"""Shared paths, source citations, palettes and writers for the per-visualization build scripts."""
+"""Shared paths, source citations, palettes and writers for the per-visualization analysis notebooks."""
 import json
 from pathlib import Path
 

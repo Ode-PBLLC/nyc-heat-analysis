@@ -19,11 +19,11 @@ program and with population composition at the ZIP-code-area level.
 
 ## Approach
 
-Every value is computed by a script in this repository from pinned copies of public source files
+Every value is computed by a notebook in this repository from pinned copies of public source files
 ([`inputs/`](inputs/README.md)); the one non-public input, DSS application counts by ZIP code, ships as
 aggregated 2025 totals per modified ZIP code area. Each visualization has its own directory with a README
-stating its objective, data, method, results and scope, a `build.py`, the data it produces, and rendered
-figures. Map polygons are simplified for display only ([`geometry/`](geometry/README.md)); all attributes
+stating its objective, data, method, results and scope, an executed `analysis.ipynb` that walks through the
+computation with notes at each step, the data it produces, and rendered figures. Map polygons are simplified for display only ([`geometry/`](geometry/README.md)); all attributes
 are computed from full-resolution sources. The page computes nothing: it formats and draws the values in
 the data files.
 
@@ -68,7 +68,7 @@ the 2080s at the 10th–90th. [Details](03_days_at_or_above_90f/README.md).
 [![Heat vulnerability and % Black](04_heat_vulnerability_overlap/figures/black.png)](04_heat_vulnerability_overlap/)
 
 Across 178 modified ZIP code areas, applications to Cooling Assistance in 2025 rise with heat
-vulnerability: 1.61 applications per 1,000 residents in the lowest heat-vulnerability tercile, 2.70 in
+vulnerability: 1.62 applications per 1,000 residents in the lowest heat-vulnerability tercile, 2.71 in
 the middle and 4.60 in the highest. 49 of the 59 highest-vulnerability areas are in the top tercile for
 share of Black non-Hispanic residents (1 of 69 lowest-vulnerability areas is); 29 of 59 are in the top
 tercile for share of Hispanic residents. [Details](04_heat_vulnerability_overlap/README.md).
@@ -96,21 +96,23 @@ Retrieval dates and file-level notes: [`inputs/README.md`](inputs/README.md).
 
 ## Reproducing
 
-Python 3.11 or later with `geopandas`, `pandas`, `numpy`, `shapely` and `openpyxl`; Playwright for Python with
-Chromium for the figures.
+Python 3.11 or later with `geopandas`, `pandas`, `numpy`, `shapely` and `openpyxl`; Jupyter (`nbformat`,
+`nbclient`, `ipykernel`) to run the notebooks; Playwright for Python with Chromium for the figures.
+
+The notebooks are the analysis code. Open any `analysis.ipynb` in Jupyter and run it from its own
+directory, or run them all headlessly:
 
 ```bash
-python3 01_heat_vulnerability_map/build.py
-python3 02_no_working_ac/build.py
-python3 03_days_at_or_above_90f/build.py
-python3 04_heat_vulnerability_overlap/build.py     # reads inputs/dss_applications_2025_by_modzcta.csv
-python3 build_site.py                              # bundles */data into site/bundle.js for index.html
-python3 figures.py                                 # renders */figures/*.png from index.html
-python3 verify.py                                  # bundle, counts, colors and page copy agree
+python3 run_notebooks.py       # executes the four analysis notebooks in order and saves their outputs
+python3 build_site.py          # bundles */data into site/bundle.js for index.html
+python3 figures.py             # renders */figures/*.png from index.html
+python3 verify.py              # bundle, counts, colors, page copy and notebook outputs agree
 ```
 
-`04_heat_vulnerability_overlap/aggregate_dss.py` regenerates the aggregated application counts from the
-DSS workbook, which is not included here. Every build script asserts the counts it publishes.
+`04_heat_vulnerability_overlap/aggregate_dss.ipynb` regenerates the aggregated application counts from the
+DSS workbook, which is not included here (`python3 run_notebooks.py --workbook PATH`). Every notebook
+asserts the counts it publishes, and the notebooks are committed with their outputs so the results can be
+read without running anything.
 
 ## Layout
 
@@ -118,7 +120,7 @@ DSS workbook, which is not included here. Every build script asserts the counts 
 index.html, site/        The page: styles, script, bundled data
 inputs/                  Pinned source files with a README of links and retrieval dates
 geometry/                Simplified display polygons and their method
-01_… 02_… 03_… 04_…      One directory per visualization: README, build.py, data/, figures/
-common.py                Shared citations, palettes and writers used by the build scripts
-build_site.py, figures.py, verify.py
+01_… 02_… 03_… 04_…      One directory per visualization: README, analysis.ipynb, data/, figures/
+common.py                Shared citations, palettes and writers imported by the notebooks
+run_notebooks.py, build_site.py, figures.py, verify.py
 ```
