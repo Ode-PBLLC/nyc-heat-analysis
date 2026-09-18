@@ -139,7 +139,7 @@ for comp in legend["comparisons"]:
     check(classed == comp["classed"] and classed + comp["no_data"] == 178, f"{comp['id']} classed/no-data counts wrong")
     check(top_right == comp["top_right_count"], f"{comp['id']} top-right count wrong")
 check([c["classed"] for c in legend["comparisons"]] == [173, 177, 177], "classed totals changed")
-check([c["top_right_count"] for c in legend["comparisons"]] == [3, 49, 29], "top-right counts changed")
+check([c["top_right_count"] for c in legend["comparisons"]] == [3, 50, 31], "top-right counts changed")
 valid = [f["properties"] for f in zones if f["properties"]["applications_2025"] is not None and f["properties"]["pop_est"]]
 apps_total, pop_total = sum(p["applications_2025"] for p in valid), sum(p["pop_est"] for p in valid)
 check(city["applications_2025"] == apps_total == 26606 and city["application_areas_included"] == len(valid) == 173, "application benchmark not the sum over areas with records")
@@ -149,6 +149,9 @@ check(abs(city["pct_hispanic"] - city["hispanic_count"] / city["population_2020"
 check(city["population_2020"] == 8804190 and city["hvi_scored_neighborhoods"] == 197, "citywide Census inputs changed")
 tc = city["tract_crosswalk"]
 check(tc["tracts_total"] == tc["tracts_scored"] + tc["tracts_without_hvi"] + tc["tracts_outside_every_modzcta_with_hvi"] + tc["tracts_with_hvi_but_zero_population"], "tract accounting does not close")
+hvi_rows = read_csv(d04 + "hvi_by_modzcta.csv")
+check(abs(sum(float(r["pop_2020"]) for r in hvi_rows) + tc["population_outside_every_modzcta"] - 8804190) < 1, "interpolated population not conserved")
+check(len(hvi_rows) == 177 and tc["population_outside_every_modzcta"] == 173, "crosswalk coverage changed")
 
 # ---- DSS reconciliation -----------------------------------------------------------------------------------------------
 totals = read_json("inputs/dss_applications_2025_totals.json")

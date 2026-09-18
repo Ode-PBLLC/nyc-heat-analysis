@@ -68,10 +68,10 @@ the 2080s at the 10th–90th. [Details](03_days_at_or_above_90f/README.md).
 [![Heat vulnerability and % Black](04_heat_vulnerability_overlap/figures/black.png)](04_heat_vulnerability_overlap/)
 
 Across 178 modified ZIP code areas, applications to Cooling Assistance in 2025 rise with heat
-vulnerability: 1.62 applications per 1,000 residents in the lowest heat-vulnerability tercile, 2.71 in
-the middle and 4.60 in the highest. 49 of the 59 highest-vulnerability areas are in the top tercile for
-share of Black non-Hispanic residents (1 of 69 lowest-vulnerability areas is); 29 of 59 are in the top
-tercile for share of Hispanic residents. [Details](04_heat_vulnerability_overlap/README.md).
+vulnerability: 1.46 applications per 1,000 residents in the lowest heat-vulnerability tercile, 2.65 in
+the middle and 4.61 in the highest. 50 of the 59 highest-vulnerability areas are in the top tercile for
+share of Black non-Hispanic residents (none of the 59 lowest-vulnerability areas is); 31 of 59 are in the
+top tercile for share of Hispanic residents. Tract values reach ZIP areas by areal interpolation. [Details](04_heat_vulnerability_overlap/README.md).
 
 These results describe where quantities co-occur; none of the comparisons establish causation. The
 health department builds the Heat Vulnerability Index from five inputs, and one of them is the share of
